@@ -202,4 +202,4 @@ export default function Navbar() {
             )}
         </nav>
     );
-}
+}{/* Commit 1 */}

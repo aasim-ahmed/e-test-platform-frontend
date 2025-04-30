@@ -6,3 +6,4 @@ export default function candidate() {
   )
 }
 {/* Commit 1 */}
+{/* Commit 2 */}

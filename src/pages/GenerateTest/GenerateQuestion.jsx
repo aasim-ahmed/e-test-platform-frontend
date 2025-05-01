@@ -17,7 +17,7 @@ import {
   X as Close,
   Search
 } from 'lucide-react';
-
+import axios from 'axios';
 // Mock data storage (would connect to your MongoDB in actual implementation)
 const mockDatabase = {
   questionTypes: [],
@@ -124,15 +124,25 @@ const QuestionTypeManager = () => {
 
   // Save to mock DB when state changes
   useEffect(() => {
-    mockDatabase.questionTypes = questionTypes;
-  }, [questionTypes]);
+    const fetchQuestionTypes = async () => {
+      try {
+        const response = await axios.get('http://localhost:5500/questiontype/getAllQuestionTypes');
+       
+        setQuestionTypes(response.data.data); // Update state with data
+      } catch (error) {
+        console.error('Error fetching question types:', error);
+      }
+    };
+  
+    fetchQuestionTypes(); // Call the async function
+  }, []);
 
   const initialFormState = {
-    name: '',
-    description: '',
-    icon: '',
+    name: "",
+    description: "",
+    icon: "",
     is_active: true,
-    display_order: 0
+    display_order: ""
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -148,6 +158,12 @@ const QuestionTypeManager = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const preparedData = {
+      ...formData,
+      display_order: parseInt(formData.display_order, 10) || 0
+      
+    };
+   
     if (editingId) {
       // Update existing
       setQuestionTypes(prev =>
@@ -161,7 +177,18 @@ const QuestionTypeManager = () => {
       };
       setQuestionTypes(prev => [...prev, newItem]);
 
-      console.log(formData, "Question type");
+      // Send data to backend
+
+
+      axios.post('http://localhost:5500/questiontype/createQuestionType', preparedData)
+        .then(response => {
+          console.log(response.data);
+          console.log("Question type created successfully");
+          
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
 
     }
@@ -173,6 +200,7 @@ const QuestionTypeManager = () => {
   };
 
   const handleEdit = (item) => {
+    
     setFormData(item);
     setEditingId(item._id);
     setShowForm(true);
@@ -250,6 +278,8 @@ const QuestionTypeManager = () => {
                   value={formData.display_order}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-md"
+                  min="0"
+                  step="1"
                   required
                 />
               </div>
@@ -994,26 +1024,26 @@ const QuestionManager = () => {
 
 export default function App() {
   return <Layout />;
-}{/* Commit 1 */}
-{/* Commit 2 */}
-{/* Commit 3 */}
-{/* Commit 4 */}
-{/* Commit 5 */}
-{/* Commit 6 */}
-{/* Commit 7 */}
-{/* Commit 8 */}
-{/* Commit 9 */}
-{/* Commit 10 */}
-{/* Commit 11 */}
-{/* Commit 12 */}
-{/* Commit 13 */}
-{/* Commit 14 */}
-{/* Commit 15 */}
-{/* Commit 16 */}
-{/* Commit 17 */}
-{/* Commit 18 */}
-{/* Commit 19 */}
-{/* Commit 20 */}
+} {/* Commit 1 */ }
+{/* Commit 2 */ }
+{/* Commit 3 */ }
+{/* Commit 4 */ }
+{/* Commit 5 */ }
+{/* Commit 6 */ }
+{/* Commit 7 */ }
+{/* Commit 8 */ }
+{/* Commit 9 */ }
+{/* Commit 10 */ }
+{/* Commit 11 */ }
+{/* Commit 12 */ }
+{/* Commit 13 */ }
+{/* Commit 14 */ }
+{/* Commit 15 */ }
+{/* Commit 16 */ }
+{/* Commit 17 */ }
+{/* Commit 18 */ }
+{/* Commit 19 */ }
+{/* Commit 20 */ }
 
 
 

@@ -155,7 +155,7 @@ const QuestionTypeManager = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const preparedData = {
@@ -165,22 +165,37 @@ const QuestionTypeManager = () => {
     };
    
     if (editingId) {
-      // Update existing
+      try {
+        const response = await axios.put(`http://localhost:5500/questiontype/updateQuestionType/${editingId}`, preparedData);
+        console.log("Updated question type:", response.data);
+
+
       setQuestionTypes(prev =>
-        prev.map(item => item._id === editingId ? { ...formData, _id: editingId } : item)
+        prev.map(item => item._id === editingId ? { ...preparedData, _id: editingId } : item)
       );
-    } else {
+
+      } catch (error) {
+        console.error(error);
+        
+      }
+
+      
+      
+    } 
+    else {
       // Add new
       const newItem = {
-        ...formData,
-        _id: Date.now().toString() // Simple mock ID
+        ...preparedData,
+        _id: Date.now().toString()
       };
+  
       setQuestionTypes(prev => [...prev, newItem]);
+  
 
       // Send data to backend
 
 
-      axios.post('http://localhost:5500/questiontype/createQuestionType', preparedData)
+      await axios.post('http://localhost:5500/questiontype/createQuestionType', preparedData)
         .then(response => {
           console.log(response.data);
           console.log("Question type created successfully");
@@ -200,15 +215,27 @@ const QuestionTypeManager = () => {
   };
 
   const handleEdit = (item) => {
+    console.log(item._id);  
     
     setFormData(item);
     setEditingId(item._id);
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
-    setQuestionTypes(prev => prev.filter(item => item._id !== id));
+  const handleDelete = async (id) => {
+    try {
+      // Delete from backend
+      await axios.delete(`http://localhost:5500/questiontype/deleteQuestionType/${id}`);
+  
+      // Remove from local state after successful deletion
+      setQuestionTypes(prev => prev.filter(item => item._id !== id));
+  
+      console.log(`Deleted question type with ID: ${id}`);
+    } catch (error) {
+      console.error('Error deleting question type:', error);
+    }
   };
+  
 
   return (
     <div className="p-4 md:p-6">
@@ -429,26 +456,38 @@ const CategoryManager = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
+    const preparedData = {
+      ...formData,
+      display_order: parseInt(formData.display_order, 10) || 0
+    };
+  
     if (editingId) {
       // Update existing
       setCategories(prev =>
-        prev.map(item => item._id === editingId ? { ...formData, _id: editingId } : item)
+        prev.map(item => item._id === editingId ? { ...preparedData, _id: editingId } : item)
       );
     } else {
-      // Add new
+      
+
+
+
+
       const newItem = {
-        ...formData,
+        ...preparedData,
         _id: Date.now().toString() // Simple mock ID
       };
       setCategories(prev => [...prev, newItem]);
     }
-
+  
+    console.log(preparedData); // ✅ Log the correctly prepared data
+  
     // Reset form
     setFormData(initialFormState);
     setShowForm(false);
     setEditingId(null);
   };
+  
 
   const handleEdit = (item) => {
     setFormData(item);

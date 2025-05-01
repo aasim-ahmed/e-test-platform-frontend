@@ -15,7 +15,8 @@ import {
   PlusCircle,
   Menu,
   X as Close,
-  Search
+  Search,
+  Upload
 } from 'lucide-react';
 import axios from 'axios';
 // Mock data storage (would connect to your MongoDB in actual implementation)
@@ -432,9 +433,18 @@ const CategoryManager = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    mockDatabase.categories = categories;
-  }, [categories]);
-
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5500/category/allcategories");
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+  
+    fetchCategories();
+  }, []); // Empty dependency array ensures this runs once when the component mounts
+  
   const initialFormState = {
     name: '',
     description: '',
@@ -454,49 +464,69 @@ const CategoryManager = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
     const preparedData = {
       ...formData,
-      display_order: parseInt(formData.display_order, 10) || 0
+      display_order: parseInt(formData.display_order, 10) || 0,
     };
   
-    if (editingId) {
-      // Update existing
-      setCategories(prev =>
-        prev.map(item => item._id === editingId ? { ...preparedData, _id: editingId } : item)
-      );
-    } else {
-      
-
-
-
-
-      const newItem = {
-        ...preparedData,
-        _id: Date.now().toString() // Simple mock ID
-      };
-      setCategories(prev => [...prev, newItem]);
+    try {
+      if (editingId) {
+        // Update existing category
+        await axios.put(
+          `http://localhost:5500/category/updateCategory/${editingId}`,
+          preparedData
+        );
+        console.log("Updated category:", preparedData);
+  
+        setCategories((prev) =>
+          prev.map((item) =>
+            item._id === editingId ? { ...preparedData, _id: editingId } : item
+          )
+        );
+      } else {
+        // Create new category
+        const response = await axios.post(
+          "http://localhost:5500/category/createCategory",
+          preparedData
+        );
+        console.log("Created category:", response.data);
+  
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   
-    console.log(preparedData); // ✅ Log the correctly prepared data
-  
-    // Reset form
+    // Reset form state
     setFormData(initialFormState);
     setShowForm(false);
     setEditingId(null);
   };
   
-
   const handleEdit = (item) => {
-    setFormData(item);
+    setFormData({
+      ...item,
+      display_order: item.display_order?.toString() || "0" // Ensure it's string for controlled input
+    });
     setEditingId(item._id);
     setShowForm(true);
+    console.log("Editing item with ID:", item._id);
   };
-
-  const handleDelete = (id) => {
-    setCategories(prev => prev.filter(item => item._id !== id));
+  
+  const handleDelete = async (id) => {
+    try {
+      // Delete from backend
+      await axios.delete(`http://localhost:5500/category/deleteCategory/${id}`);
+  
+      // Remove from local state after successful deletion
+      setCategories(prev => prev.filter(item => item._id !== id));
+  
+      console.log(`Deleted question type with ID: ${id}`);
+    } catch (error) {
+      console.error('Error deleting question type:', error);
+    }
   };
 
   const getParentName = (parentId) => {
@@ -1063,63 +1093,4 @@ const QuestionManager = () => {
 
 export default function App() {
   return <Layout />;
-} {/* Commit 1 */ }
-{/* Commit 2 */ }
-{/* Commit 3 */ }
-{/* Commit 4 */ }
-{/* Commit 5 */ }
-{/* Commit 6 */ }
-{/* Commit 7 */ }
-{/* Commit 8 */ }
-{/* Commit 9 */ }
-{/* Commit 10 */ }
-{/* Commit 11 */ }
-{/* Commit 12 */ }
-{/* Commit 13 */ }
-{/* Commit 14 */ }
-{/* Commit 15 */ }
-{/* Commit 16 */ }
-{/* Commit 17 */ }
-{/* Commit 18 */ }
-{/* Commit 19 */ }
-{/* Commit 20 */ }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} 

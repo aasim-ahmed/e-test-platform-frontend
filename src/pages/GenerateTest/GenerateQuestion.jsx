@@ -119,6 +119,7 @@ const Layout = ({ children }) => {
 
 // ========= QUESTION TYPE MANAGER =========
 const QuestionTypeManager = () => {
+
   const [questionTypes, setQuestionTypes] = useState(mockDatabase.questionTypes);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -130,14 +131,18 @@ const QuestionTypeManager = () => {
         const response = await axios.get('http://localhost:5500/questiontype/getAllQuestionTypes');
        
         setQuestionTypes(response.data.data); // Update state with data
+        
       } catch (error) {
         console.error('Error fetching question types:', error);
       }
     };
-  
+    
     fetchQuestionTypes(); // Call the async function
   }, []);
 
+  
+
+  
   const initialFormState = {
     name: "",
     description: "",
@@ -744,12 +749,40 @@ const CategoryManager = () => {
 // ========= QUESTION MANAGER =========
 const QuestionManager = () => {
   const [questions, setQuestions] = useState(mockDatabase.questions);
+  const [questionTypes, setQuestionTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  
+
   useEffect(() => {
-    mockDatabase.questions = questions;
-  }, [questions]);
+
+    const fetchQuestion = axios.get('http://localhost:5500/question/getAllQuestions')
+    .then((response) => {
+      setQuestions(response.data.data); 
+    })
+    .catch((error) => {
+      console.error('Error fetching questions:', error);
+    })
+   
+    const response  = axios.get('http://localhost:5500/questiontype/getAllQuestionTypes')
+    .then((response) => {
+      setQuestionTypes(response.data.data); 
+    })
+    .catch((error) => {
+      console.error('Error fetching question types:', error);
+    });
+
+    const response2 = axios.get("http://localhost:5500/category/allcategories")
+    .then((response) => {
+      setCategories(response.data.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+    }); 
+
+  }, []);
 
   const initialFormState = {
     question_text: '',
@@ -799,17 +832,23 @@ const QuestionManager = () => {
     e.preventDefault();
 
     if (editingId) {
-      // Update existing
-      setQuestions(prev =>
-        prev.map(item => item._id === editingId ? { ...formData, _id: editingId } : item)
-      );
+      
+      axios.put(`http://localhost:5500/question/${editingId}`, formData) 
+      .then((response) => {
+        console.log('Question updated successfully:', response.data);   
+      })
+      .catch((error) => {
+        console.error('Error updating question:', error);
+      }); 
     } else {
-      // Add new
-      const newItem = {
-        ...formData,
-        _id: Date.now().toString() // Simple mock ID
-      };
-      setQuestions(prev => [...prev, newItem]);
+      axios.post('http://localhost:5500/question/', formData)
+      .then((response) => {
+        console.log('Question created successfully:', response.data); 
+      })
+      .catch((error) => {
+        console.error('Error creating question:', error);
+      });
+
     }
 
     // Reset form
@@ -825,8 +864,15 @@ const QuestionManager = () => {
   };
 
   const handleDelete = (id) => {
-    setQuestions(prev => prev.filter(item => item._id !== id));
+    axios.delete(`http://localhost:5500/question/${id}`)
+    .then((response) => {
+      console.log('Question deleted successfully:', response.data); 
+    })
+    .catch((error) => {
+      console.error('Error deleting question:', error);
+    });
   };
+
 
   // Helper to get type/category names from IDs
   const getTypeInfo = (typeId) => {
@@ -885,7 +931,7 @@ const QuestionManager = () => {
                     required
                   >
                     <option value="">Select Type</option>
-                    {mockDatabase.questionTypes.map(type => (
+                    {questionTypes.map(type => (
                       <option key={type._id} value={type._id}>{type.name}</option>
                     ))}
                   </select>
@@ -900,7 +946,7 @@ const QuestionManager = () => {
                     className="w-full p-2 border rounded-md"
                   >
                     <option value="">General (No Category)</option>
-                    {mockDatabase.categories.map(category => (
+                    {categories.map(category => (
                       <option key={category._id} value={category._id}>{category.name}</option>
                     ))}
                   </select>

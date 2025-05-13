@@ -2,34 +2,17 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './app/store';
 
 createRoot(document.getElementById('root')).render(
   
     <BrowserRouter>
-    <App />
+     <Provider store={store}>
+      <App />
+    </Provider>
   </BrowserRouter>
 )
-{/* Commit 1 */}
-{/* Commit 2 */}
-{/* Commit 3 */}
-{/* Commit 4 */}
-{/* Commit 5 */}
-{/* Commit 6 */}
-{/* Commit 7 */}
-{/* Commit 8 */}
-{/* Commit 9 */}
-{/* Commit 10 */}
-{/* Commit 11 */}
-{/* Commit 12 */}
-{/* Commit 13 */}
-{/* Commit 14 */}
-{/* Commit 15 */}
-{/* Commit 16 */}
-{/* Commit 17 */}
-{/* Commit 18 */}
-{/* Commit 19 */}
-{/* Commit 20 */}
-
 
 
 

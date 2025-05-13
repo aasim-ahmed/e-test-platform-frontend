@@ -56,7 +56,7 @@ const Layout = ({ children }) => {
         ${sidebarOpen ? 'block' : 'hidden'} md:block
         w-full md:w-64 bg-white shadow-md md:h-screen z-10
         ${sidebarOpen ? 'fixed inset-0 md:relative' : ''}
-        overflow-y-auto
+        
       `}>
         <div className="p-4 border-b hidden md:block">
           <h1 className="text-xl font-bold text-blue-600">Test Manager</h1>
@@ -124,21 +124,21 @@ const QuestionTypeManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  // Save to mock DB when state changes
+  const fetchQuestionTypes = async () => {
+    try {
+      const response = await axios.get('http://localhost:5500/questiontype/getAllQuestionTypes');
+     
+      setQuestionTypes(response.data.data); // Update state with data
+      
+    } catch (error) {
+      console.error('Error fetching question types:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestionTypes = async () => {
-      try {
-        const response = await axios.get('http://localhost:5500/questiontype/getAllQuestionTypes');
-       
-        setQuestionTypes(response.data.data); // Update state with data
-        
-      } catch (error) {
-        console.error('Error fetching question types:', error);
-      }
-    };
-    
     fetchQuestionTypes(); // Call the async function
   }, []);
+
 
   
 
@@ -180,6 +180,8 @@ const QuestionTypeManager = () => {
         prev.map(item => item._id === editingId ? { ...preparedData, _id: editingId } : item)
       );
 
+        fetchQuestionTypes();
+
       } catch (error) {
         console.error(error);
         
@@ -205,6 +207,7 @@ const QuestionTypeManager = () => {
         .then(response => {
           console.log(response.data);
           console.log("Question type created successfully");
+          fetchQuestionTypes();
           
         })
         .catch(error => {
@@ -235,6 +238,8 @@ const QuestionTypeManager = () => {
   
       // Remove from local state after successful deletion
       setQuestionTypes(prev => prev.filter(item => item._id !== id));
+  
+      fetchQuestionTypes();
   
       console.log(`Deleted question type with ID: ${id}`);
     } catch (error) {
@@ -437,17 +442,16 @@ const CategoryManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5500/category/allcategories");
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:5500/category/allcategories");
-        setCategories(response.data.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-  
-    fetchCategories();
+  fetchCategories();
   }, []); // Empty dependency array ensures this runs once when the component mounts
   
   const initialFormState = {
@@ -486,6 +490,8 @@ const CategoryManager = () => {
         );
         console.log("Updated category:", preparedData);
   
+        fetchCategories();
+  
         setCategories((prev) =>
           prev.map((item) =>
             item._id === editingId ? { ...preparedData, _id: editingId } : item
@@ -498,6 +504,10 @@ const CategoryManager = () => {
           preparedData
         );
         console.log("Created category:", response.data);
+  
+        fetchCategories();
+  
+        
   
       }
     } catch (error) {
@@ -527,6 +537,8 @@ const CategoryManager = () => {
   
       // Remove from local state after successful deletion
       setCategories(prev => prev.filter(item => item._id !== id));
+  
+      fetchCategories();  
   
       console.log(`Deleted question type with ID: ${id}`);
     } catch (error) {
@@ -754,18 +766,20 @@ const QuestionManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  const fetchQuestion = async () => {
+    try {
+      const response = await axios.get('http://localhost:5500/question/getAllQuestions');
+      setQuestions(response.data.data);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    }
+  };
   
 
   useEffect(() => {
 
-    const fetchQuestion = axios.get('http://localhost:5500/question/getAllQuestions')
-    .then((response) => {
-      setQuestions(response.data.data); 
-    })
-    .catch((error) => {
-      console.error('Error fetching questions:', error);
-    })
-   
+    fetchQuestion();
+
     const response  = axios.get('http://localhost:5500/questiontype/getAllQuestionTypes')
     .then((response) => {
       setQuestionTypes(response.data.data); 
@@ -835,7 +849,8 @@ const QuestionManager = () => {
       
       axios.put(`http://localhost:5500/question/${editingId}`, formData) 
       .then((response) => {
-        console.log('Question updated successfully:', response.data);   
+        console.log('Question updated successfully:', response.data);  
+        fetchQuestion(); 
       })
       .catch((error) => {
         console.error('Error updating question:', error);
@@ -843,7 +858,8 @@ const QuestionManager = () => {
     } else {
       axios.post('http://localhost:5500/question/', formData)
       .then((response) => {
-        console.log('Question created successfully:', response.data); 
+        console.log('Question created successfully:', response.data);
+        fetchQuestion(); 
       })
       .catch((error) => {
         console.error('Error creating question:', error);
@@ -867,6 +883,7 @@ const QuestionManager = () => {
     axios.delete(`http://localhost:5500/question/${id}`)
     .then((response) => {
       console.log('Question deleted successfully:', response.data); 
+      fetchQuestion();
     })
     .catch((error) => {
       console.error('Error deleting question:', error);

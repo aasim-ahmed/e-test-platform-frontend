@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, UserCircle, Menu, X, Search, LogOut, Settings, BookOpen } from 'lucide-react';
+import logo from '../assets/logo.png';
+import { Bell, UserCircle, Menu, X, Search, LogOut, Settings, BookOpen, LogIn, UserPlus } from 'lucide-react';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
 
     useEffect(() => {
         const handleScroll = () => {
@@ -20,6 +22,17 @@ export default function Navbar() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // This function would be replaced with actual authentication logic
+    const handleLogin = () => {
+        setIsAuthenticated(true);
+    };
+
+    // This function would be used to log the user out
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setIsUserMenuOpen(false);
+    };
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const toggleUserMenu = () => {
@@ -37,10 +50,8 @@ export default function Navbar() {
                 <div className="flex justify-between h-16">
                     {/* Logo and brand */}
                     <div className="flex items-center">
-                        <div className="flex-shrink-0 flex items-center">
-                            <div className={`font-bold text-2xl ${isScrolled ? 'text-blue-600' : 'text-white'}`}>
-                                SkillSnap
-                            </div>
+                        <div className="flex items-center">
+                            <img className="block h-10 w-auto" src={logo} alt="Workflow" />
                         </div>
                     </div>
 
@@ -54,7 +65,6 @@ export default function Navbar() {
                                 className={`bg-transparent border-none focus:ring-0 text-sm ml-2 w-64 outline-none transition-colors duration-300
     ${isScrolled ? 'text-gray-700 placeholder-black' : 'text-white placeholder-white'}`}
                             />
-
                         </div>
 
                         <Link to="/dashboard" className={`px-3 py-2 text-sm font-medium rounded-md ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:bg-blue-500 hover:bg-opacity-20'}`}>
@@ -70,70 +80,102 @@ export default function Navbar() {
                             Analytics
                         </Link>
 
-                        {/* Notification bell */}
-                        <div className="relative">
-                            <button
-                                onClick={toggleNotifications}
-                                className={`p-2 rounded-full ${isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white hover:bg-opacity-20'}`}
-                            >
-                                <Bell className={`h-5 w-5 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
-                                <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
-                            </button>
+                        {isAuthenticated ? (
+                            <>
+                                {/* Notification bell - only shown when authenticated */}
+                                <div className="relative">
+                                    <button
+                                        onClick={toggleNotifications}
+                                        className={`p-2 rounded-full ${isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white hover:bg-opacity-20'}`}
+                                    >
+                                        <Bell className={`h-5 w-5 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
+                                        <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
+                                    </button>
 
-                            {/* Notifications dropdown */}
-                            {isNotificationsOpen && (
-                                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-1 z-10">
-                                    <div className="px-4 py-2 font-medium border-b border-gray-100">Notifications</div>
-                                    <div className="max-h-96 overflow-y-auto">
-                                        <Link to="/tests/advanced-mathematics" className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                            <p className="text-sm text-gray-700">New test "Advanced Mathematics" is available.</p>
-                                            <p className="text-xs text-gray-500 mt-1">10 minutes ago</p>
-                                        </Link>
-                                        <Link to="/results/biology-quiz" className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                            <p className="text-sm text-gray-700">Your test results for "Biology Quiz" are ready.</p>
-                                            <p className="text-xs text-gray-500 mt-1">2 hours ago</p>
-                                        </Link>
-                                        <Link to="/assignments" className="block px-4 py-3 hover:bg-gray-50">
-                                            <p className="text-sm text-gray-700">You have a new assignment due tomorrow.</p>
-                                            <p className="text-xs text-gray-500 mt-1">1 day ago</p>
-                                        </Link>
-                                    </div>
-                                    <Link to="/notifications" className="block text-center text-sm text-blue-600 font-medium py-2 border-t border-gray-100">
-                                        View all notifications
-                                    </Link>
+                                    {/* Notifications dropdown */}
+                                    {isNotificationsOpen && (
+                                        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-1 z-10">
+                                            <div className="px-4 py-2 font-medium border-b border-gray-100">Notifications</div>
+                                            <div className="max-h-96 overflow-y-auto">
+                                                <Link to="/tests/advanced-mathematics" className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                                    <p className="text-sm text-gray-700">New test "Advanced Mathematics" is available.</p>
+                                                    <p className="text-xs text-gray-500 mt-1">10 minutes ago</p>
+                                                </Link>
+                                                <Link to="/results/biology-quiz" className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                                    <p className="text-sm text-gray-700">Your test results for "Biology Quiz" are ready.</p>
+                                                    <p className="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                                </Link>
+                                                <Link to="/assignments" className="block px-4 py-3 hover:bg-gray-50">
+                                                    <p className="text-sm text-gray-700">You have a new assignment due tomorrow.</p>
+                                                    <p className="text-xs text-gray-500 mt-1">1 day ago</p>
+                                                </Link>
+                                            </div>
+                                            <Link to="/notifications" className="block text-center text-sm text-blue-600 font-medium py-2 border-t border-gray-100">
+                                                View all notifications
+                                            </Link>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
 
-                        {/* User menu */}
-                        <div className="relative ml-3">
-                            <button
-                                onClick={toggleUserMenu}
-                                className="flex items-center space-x-2"
-                            >
-                                <UserCircle className={`h-8 w-8 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
-                                <span className={`text-sm font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>John Doe</span>
-                            </button>
+                                {/* User menu - only shown when authenticated */}
+                                <div className="relative ml-3">
+                                    <button
+                                        onClick={toggleUserMenu}
+                                        className="flex items-center space-x-2"
+                                    >
+                                        <UserCircle className={`h-8 w-8 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
+                                        <span className={`text-sm font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>John Doe</span>
+                                    </button>
 
-                            {/* User dropdown */}
-                            {isUserMenuOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
-                                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
-                                        <UserCircle className="h-4 w-4 mr-2 text-gray-500" /> Profile
-                                    </Link>
-                                    <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
-                                        <Settings className="h-4 w-4 mr-2 text-gray-500" /> Settings
-                                    </Link>
-                                    <Link to="/courses" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
-                                        <BookOpen className="h-4 w-4 mr-2 text-gray-500" /> My Courses
-                                    </Link>
-                                    <div className="border-t border-gray-100"></div>
-                                    <Link to="/logout" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center">
-                                        <LogOut className="h-4 w-4 mr-2 text-red-500" /> Sign out
-                                    </Link>
+                                    {/* User dropdown */}
+                                    {isUserMenuOpen && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+                                            <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                                <UserCircle className="h-4 w-4 mr-2 text-gray-500" /> Profile
+                                            </Link>
+                                            <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                                <Settings className="h-4 w-4 mr-2 text-gray-500" /> Settings
+                                            </Link>
+                                            <Link to="/courses" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                                <BookOpen className="h-4 w-4 mr-2 text-gray-500" /> My Courses
+                                            </Link>
+                                            <div className="border-t border-gray-100"></div>
+                                            <button 
+                                                onClick={handleLogout}
+                                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center"
+                                            >
+                                                <LogOut className="h-4 w-4 mr-2 text-red-500" /> Sign out
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* Login and Signup buttons - shown when not authenticated */}
+                                <Link 
+                                    to="/login" 
+                                    className={`px-4 py-2 text-sm font-medium rounded-md flex items-center ${
+                                        isScrolled 
+                                            ? 'text-blue-600 hover:text-blue-700' 
+                                            : 'text-white hover:bg-white hover:bg-opacity-20'
+                                    }`}
+                                    onClick={handleLogin} // For demo purposes
+                                >
+                                    <LogIn className="h-4 w-4 mr-1" /> Login
+                                </Link>
+                                <Link 
+                                    to="/signup" 
+                                    className={`px-4 py-2 text-sm font-medium rounded-md ${
+                                        isScrolled 
+                                            ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                            : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30'
+                                    } flex items-center`}
+                                >
+                                    <UserPlus className="h-4 w-4 mr-1" /> Sign Up
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile menu button */}
@@ -170,95 +212,58 @@ export default function Navbar() {
                         <Link to="/practice" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Practice</Link>
                         <Link to="/analytics" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Analytics</Link>
                     </div>
-                    <div className="pt-4 pb-3 border-t border-gray-200">
-                        <div className="flex items-center px-5">
-                            <div className="flex-shrink-0">
-                                <UserCircle className="h-10 w-10 text-gray-500" />
+                    
+                    {isAuthenticated ? (
+                        <div className="pt-4 pb-3 border-t border-gray-200">
+                            <div className="flex items-center px-5">
+                                <div className="flex-shrink-0">
+                                    <UserCircle className="h-10 w-10 text-gray-500" />
+                                </div>
+                                <div className="ml-3">
+                                    <div className="text-base font-medium text-gray-800">John Doe</div>
+                                    <div className="text-sm font-medium text-gray-500">john@example.com</div>
+                                </div>
+                                <button className="ml-auto p-1 rounded-full text-gray-500 hover:bg-gray-100">
+                                    <Bell className="h-6 w-6" />
+                                </button>
                             </div>
-                            <div className="ml-3">
-                                <div className="text-base font-medium text-gray-800">John Doe</div>
-                                <div className="text-sm font-medium text-gray-500">john@example.com</div>
+                            <div className="mt-3 px-2 space-y-1">
+                                <Link to="/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
+                                    <UserCircle className="h-5 w-5 mr-2 text-gray-500" /> Profile
+                                </Link>
+                                <Link to="/settings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
+                                    <Settings className="h-5 w-5 mr-2 text-gray-500" /> Settings
+                                </Link>
+                                <Link to="/courses" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
+                                    <BookOpen className="h-5 w-5 mr-2 text-gray-500" /> My Courses
+                                </Link>
+                                <button 
+                                    onClick={handleLogout}
+                                    className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100 flex items-center"
+                                >
+                                    <LogOut className="h-5 w-5 mr-2 text-red-500" /> Sign out
+                                </button>
                             </div>
-                            <button className="ml-auto p-1 rounded-full text-gray-500 hover:bg-gray-100">
-                                <Bell className="h-6 w-6" />
-                            </button>
                         </div>
-                        <div className="mt-3 px-2 space-y-1">
-                            <Link to="/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
-                                <UserCircle className="h-5 w-5 mr-2 text-gray-500" /> Profile
+                    ) : (
+                        <div className="pt-4 pb-3 border-t border-gray-200 px-5 flex flex-col space-y-2">
+                            <Link 
+                                to="/login" 
+                                className="w-full py-2 text-center font-medium rounded-md text-blue-600 border border-blue-600 flex items-center justify-center"
+                                onClick={handleLogin} // For demo purposes
+                            >
+                                <LogIn className="h-5 w-5 mr-2" /> Login
                             </Link>
-                            <Link to="/settings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
-                                <Settings className="h-5 w-5 mr-2 text-gray-500" /> Settings
-                            </Link>
-                            <Link to="/courses" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
-                                <BookOpen className="h-5 w-5 mr-2 text-gray-500" /> My Courses
-                            </Link>
-                            <Link to="/logout" className="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100 flex items-center">
-                                <LogOut className="h-5 w-5 mr-2 text-red-500" /> Sign out
+                            <Link 
+                                to="/signup" 
+                                className="w-full py-2 text-center font-medium rounded-md bg-blue-600 text-white flex items-center justify-center"
+                            >
+                                <UserPlus className="h-5 w-5 mr-2" /> Sign Up
                             </Link>
                         </div>
-                    </div>
+                    )}
                 </div>
             )}
         </nav>
     );
-}{/* Commit 1 */}
-{/* Commit 2 */}
-{/* Commit 3 */}
-{/* Commit 4 */}
-{/* Commit 5 */}
-{/* Commit 6 */}
-{/* Commit 7 */}
-{/* Commit 8 */}
-{/* Commit 9 */}
-{/* Commit 10 */}
-{/* Commit 11 */}
-{/* Commit 12 */}
-{/* Commit 13 */}
-{/* Commit 14 */}
-{/* Commit 15 */}
-{/* Commit 16 */}
-{/* Commit 17 */}
-{/* Commit 18 */}
-{/* Commit 19 */}
-{/* Commit 20 */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

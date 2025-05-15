@@ -5,33 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+       colors: {
+        custom1: '#1ec9f3',
+        custom2: '#049bf4'
+    },
   },
   plugins: [],
 }
-
-{/* Commit 1 */}
-{/* Commit 2 */}
-{/* Commit 3 */}
-{/* Commit 4 */}
-{/* Commit 5 */}
-{/* Commit 6 */}
-{/* Commit 7 */}
-{/* Commit 8 */}
-{/* Commit 9 */}
-{/* Commit 10 */}
-{/* Commit 11 */}
-{/* Commit 12 */}
-{/* Commit 13 */}
-{/* Commit 14 */}
-{/* Commit 15 */}
-{/* Commit 16 */}
-{/* Commit 17 */}
-{/* Commit 18 */}
-{/* Commit 19 */}
-{/* Commit 20 */}
-{/* updated tailwind.config.js commit 1 */}
-
+}
 
 
 

@@ -4,13 +4,14 @@ import { BookOpen, Monitor, Award, CheckCircle, Users, Clock, Search, ChevronRig
 import Features from '../pages/Features.jsx';
 import Pricing from '../pages/Pricing.jsx';
 import CTASection from '../pages/CTASection.jsx';
+import TestPlatformStats from '../pages/TestPlatformStats.jsx';
 
 export default function Home() {
   const [email, setEmail] = useState('');
 
 
   return (
-    <div className="bg-gradient-to-br from-custom1  to-custom2 flex flex-col items-center justify-center">
+    <div className="bg-gradient-to-br from-custom1  to-custom2 flex flex-col items-center justify-center ">
       {/* Main content */}
       <div className="container mx-auto px-6 py-20 text-center z-10">
         <div className="flex flex-col md:flex-row items-center justify-between">
@@ -45,6 +46,7 @@ export default function Home() {
        
         </div>
       </div>
+      <TestPlatformStats/>
        <Features/>
        <Pricing/>
        <CTASection/>

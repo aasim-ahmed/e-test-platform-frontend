@@ -4,26 +4,25 @@ import { BookOpen, Monitor, Award, CheckCircle, Users, Clock, BarChart3, Globe, 
 
 export default function Features() {
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-50 to-purple-50 p-6 md:p-10">
+    <div className="w-full bg-white p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Powerful Test Management Platform</h2>
+          <h2 className="text-3xl font-bold ">Powerful Test Management Platform</h2>
           <p className="text-gray-600 mt-2">Everything you need to create, manage, and analyze professional assessments</p>
         </div>
-        
-        <div className="grid grid-cols-12 gap-6">
+       <div className="grid grid-cols-12 gap-6">
           {/* Left Column */}
           <div className="col-span-12 md:col-span-4">
             <div className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-indigo-100 hover:shadow-lg transition-shadow">
               <div className="flex flex-col items-center text-center p-4">
-                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-3 shadow-md">
+                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-custom1 to-custom2 flex items-center justify-center mb-3 shadow-md">
                   <Monitor size={24} className="text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mt-2">Test Creation Studio</h3>
                 <p className="text-gray-600 mt-2">Build professional assessments with our intuitive interface</p>
                 
                 <div className="mt-4 w-full bg-gray-100 h-1 rounded-full">
-                  <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-1 rounded-full w-4/5"></div>
+                  <div className="bg-gradient-to-r from-custom1 to-custom2 h-1 rounded-full w-4/5"></div>
                 </div>
                 
                 <div className="flex mt-6 gap-3">
@@ -38,7 +37,7 @@ export default function Features() {
                   </div>
                 </div>
                 
-                <div className="mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center py-2 px-6 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity w-full">
+                <div className="mt-6 bg-gradient-to-r from-custom1 to-custom2 text-white text-center py-2 px-6 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity w-full">
                   Create New Test
                 </div>
               </div>
@@ -55,7 +54,7 @@ export default function Features() {
               
               <div className="mt-4 flex gap-2">
                 <div className="flex -space-x-2">
-                  <div className="h-8 w-8 rounded-full bg-indigo-200 border-2 border-white flex items-center justify-center text-xs font-medium text-indigo-600">JD</div>
+                  <div className="h-8 w-8 rounded-full bg-indigo-200 border-2 border-white flex items-center justify-center text-xs font-medium text-custom1">JD</div>
                   <div className="h-8 w-8 rounded-full bg-purple-200 border-2 border-white flex items-center justify-center text-xs font-medium text-purple-600">KL</div>
                   <div className="h-8 w-8 rounded-full bg-pink-200 border-2 border-white flex items-center justify-center text-xs font-medium text-pink-600">MN</div>
                   <div className="h-8 w-8 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center text-xs font-medium text-blue-600">+5</div>
@@ -64,7 +63,7 @@ export default function Features() {
               </div>
               
               <div className="mt-4 pt-4 border-t border-gray-100">
-                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity">
+                <div className="bg-gradient-to-r from-custom1to-purple-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity">
                   Invite Candidates
                 </div>
               </div>
@@ -84,14 +83,14 @@ export default function Features() {
                 <p className="text-gray-600">Advanced proctoring with AI-powered monitoring</p>
               </div>
               
-              <div className="flex-grow p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl my-4 border border-indigo-100">
+              <div className="flex-grow p-5 bg-gray-50 rounded-xl my-4 border border-indigo-100">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-indigo-800">Technical Assessment</span>
-                  <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full">Live</span>
+                  <span className="text-xs bg-indigo-100 text-custom1px-2 py-1 rounded-full">Live</span>
                 </div>
                 
                 <div className="h-2 w-full bg-gray-200 rounded-full mb-3">
-                  <div className="h-2 w-3/4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+                  <div className="h-2 w-3/4 bg-gradient-to-r from-custom1 to-custom2 rounded-full"></div>
                 </div>
                 
                 <div className="flex justify-between items-center">
@@ -144,8 +143,8 @@ export default function Features() {
               
               <div className="mt-2 bg-gradient-to-br from-indigo-50 to-purple-50 p-3 rounded-lg border border-indigo-100">
                 <div className="flex gap-2 mb-2">
-                  <div className="h-4 w-4 rounded-full bg-indigo-500"></div>
-                  <div className="h-4 w-4 rounded-full bg-purple-500"></div>
+                  <div className="h-4 w-4 rounded-full bg-custom1"></div>
+                  <div className="h-4 w-4 rounded-full bg-custom2"></div>
                   <div className="h-4 w-4 rounded-full bg-pink-500"></div>
                   <div className="h-4 w-4 rounded-full bg-amber-500"></div>
                 </div>
@@ -163,7 +162,7 @@ export default function Features() {
               
               <div className="flex items-center justify-between text-sm text-gray-500 mt-3">
                 <span>Updated Aug 5, 2023</span>
-                <div className="flex items-center text-indigo-600 cursor-pointer">
+                <div className="flex items-center text-custom1cursor-pointer">
                   <PieChart size={14} className="mr-1" />
                   <span className="text-xs font-medium">View Full Report</span>
                 </div>
@@ -173,7 +172,7 @@ export default function Features() {
             <div className="bg-white rounded-2xl shadow-md p-6 border border-indigo-100 hover:shadow-lg transition-shadow">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">Resource Library</h3>
-                <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full cursor-pointer">View All</span>
+                <span className="text-xs bg-indigo-100 text-custom1px-2 py-1 rounded-full cursor-pointer">View All</span>
               </div>
               
               <div className="flex items-center py-2 border-b border-gray-100">
@@ -185,7 +184,7 @@ export default function Features() {
                   <p className="text-xs text-gray-500">1,832 Questions Available</p>
                 </div>
                 <div className="h-6 w-6 rounded-full bg-indigo-100 flex items-center justify-center">
-                  <CheckCircle size={12} className="text-indigo-600" />
+                  <CheckCircle size={12} className="text-custom1" />
                 </div>
               </div>
               
@@ -215,7 +214,7 @@ export default function Features() {
                 </div>
               </div>
               
-              <div className="mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity">
+              <div className="mt-4 bg-gradient-to-r from-custom1to-purple-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity">
                 Explore Resources
               </div>
             </div>

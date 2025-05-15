@@ -11,7 +11,7 @@ export default function Home() {
 
 
   return (
-    <div className="bg-gradient-to-br from-custom1  to-custom2 flex flex-col items-center justify-center ">
+     <div className="relative bg-gradient-to-br from-custom1 to-custom2 flex flex-col items-center justify-center ">
       {/* Main content */}
       <div className="container mx-auto px-6 py-20 text-center z-10">
         <div className="flex flex-col md:flex-row items-center justify-between">
@@ -22,11 +22,11 @@ export default function Home() {
                 Online<br />Examination<br />System
               </span>
             </h1>
-            
+
             <p className="text-xl text-blue-100 mb-8 max-w-lg font-light leading-relaxed">
               Secure, flexible, and user-friendly platform for conducting online assessments, examinations, and quizzes with advanced analytics.
             </p>
-            
+
             <div className="flex flex-wrap gap-4">
               <button className="px-8 py-3 bg-white text-blue-800 font-bold rounded-full hover:bg-blue-50 shadow-lg transform hover:-translate-y-1 transition duration-300">
                 Get Started
@@ -36,31 +36,22 @@ export default function Home() {
               </button>
             </div>
           </div>
-          
-          {/* Right image section - kept unchanged as requested */}
-            <img 
-              src={Image} 
-              alt="Online Examination System" 
-              className="w-full md:w-1/2"
-            />
-       
+
+          {/* Right image section */}
+          <img
+            src={Image}
+            alt="Online Examination System"
+            className="w-full md:w-1/2"
+          />
         </div>
       </div>
-      <TestPlatformStats/>
-       <Features/>
-       <Pricing/>
-       <CTASection/>
-     
-
- 
-     
 
      
- 
-
-    
-     
+<TestPlatformStats/>
+      {/* Following sections */}
+      <Features />
+      <Pricing />
+      <CTASection />
     </div>
-    
   );
 }

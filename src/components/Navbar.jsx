@@ -62,7 +62,7 @@ export default function Navbar() {
     };
 
     return (
-<nav className="fixed w-full z-50 bg-gradient-to-br from-custom1 to-custom2 shadow-md py-2">
+<nav className="fixed w-full z-50 bg-gradient-to-r from-custom1 to-custom2 shadow-md py-2">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Logo and brand */}

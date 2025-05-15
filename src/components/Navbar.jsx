@@ -1,51 +1,68 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { Bell, UserCircle, Menu, X, Search, LogOut, Settings, BookOpen, LogIn, UserPlus } from 'lucide-react';
+import { Bell, UserCircle, Menu, X, Search, LogOut, Settings, BookOpen, LogIn, UserPlus, AlertTriangle } from 'lucide-react';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 10) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-        };
+    // Check if user is authenticated by looking for token in localStorage
+    const isAuthenticated = localStorage.getItem('token') !== null;
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+    }
 
-    // This function would be replaced with actual authentication logic
-    const handleLogin = () => {
-        setIsAuthenticated(true);
-    };
 
-    // This function would be used to log the user out
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        setIsUserMenuOpen(false);
-    };
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
+
+
+    // Toggle mobile menu
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    // Toggle user menu dropdown and close notifications if open
     const toggleUserMenu = () => {
         setIsUserMenuOpen(!isUserMenuOpen);
         if (isNotificationsOpen) setIsNotificationsOpen(false);
     };
+
+    // Toggle notifications dropdown and close user menu if open
     const toggleNotifications = () => {
         setIsNotificationsOpen(!isNotificationsOpen);
         if (isUserMenuOpen) setIsUserMenuOpen(false);
     };
 
+    // Initiate logout confirmation
+    const initiateLogout = () => {
+        setShowLogoutConfirm(true);
+        setIsUserMenuOpen(false); // Close the user menu
+    };
+
+    // Handle logout confirmation
+    const confirmLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        localStorage.removeItem('user');
+        setShowLogoutConfirm(false);
+        navigate('/');
+    };
+
+    // Cancel logout
+    const cancelLogout = () => {
+        setShowLogoutConfirm(false);
+    };
+
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-gradient-to-r from-blue-400 to-blue-600'}`}>
+<nav className="fixed w-full z-50 bg-gradient-to-br from-custom1 to-custom2 shadow-md py-2">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Logo and brand */}
@@ -57,26 +74,25 @@ export default function Navbar() {
 
                     {/* Desktop navigation */}
                     <div className="hidden md:flex items-center space-x-4">
-                        <div className={`relative rounded-full bg-opacity-20 ${isScrolled ? 'bg-gray-100' : 'bg-white'} flex items-center px-3 py-1`}>
-                            <Search className={`h-4 w-4 ${isScrolled ? 'text-gray-500' : 'text-white'}`} />
+                        <div className="relative rounded-full bg-opacity-20 bg-white flex items-center px-3 py-1">
+                            <Search className="h-4 w-4 text-white" />
                             <input
                                 type="text"
                                 placeholder="Search tests..."
-                                className={`bg-transparent border-none focus:ring-0 text-sm ml-2 w-64 outline-none transition-colors duration-300
-    ${isScrolled ? 'text-gray-700 placeholder-black' : 'text-white placeholder-white'}`}
+                                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-64 outline-none transition-colors duration-300 text-white placeholder-white"
                             />
                         </div>
 
-                        <Link to="/dashboard" className={`px-3 py-2 text-sm font-medium rounded-md ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:bg-blue-500 hover:bg-opacity-20'}`}>
+                        <Link to="/dashboard" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
                             Dashboard
                         </Link>
-                        <Link to="/my-tests" className={`px-3 py-2 text-sm font-medium rounded-md ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:bg-blue-500 hover:bg-opacity-20'}`}>
+                        <Link to="/my-tests" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
                             My Tests
                         </Link>
-                        <Link to="/practice" className={`px-3 py-2 text-sm font-medium rounded-md ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:bg-blue-500 hover:bg-opacity-20'}`}>
+                        <Link to="/practice" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
                             Practice
                         </Link>
-                        <Link to="/analytics" className={`px-3 py-2 text-sm font-medium rounded-md ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:bg-blue-500 hover:bg-opacity-20'}`}>
+                        <Link to="/analytics" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
                             Analytics
                         </Link>
 
@@ -86,9 +102,9 @@ export default function Navbar() {
                                 <div className="relative">
                                     <button
                                         onClick={toggleNotifications}
-                                        className={`p-2 rounded-full ${isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white hover:bg-opacity-20'}`}
+                                        className="p-2 rounded-full hover:bg-white hover:bg-opacity-20"
                                     >
-                                        <Bell className={`h-5 w-5 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
+                                        <Bell className="h-5 w-5 text-white" />
                                         <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
                                     </button>
 
@@ -123,8 +139,8 @@ export default function Navbar() {
                                         onClick={toggleUserMenu}
                                         className="flex items-center space-x-2"
                                     >
-                                        <UserCircle className={`h-8 w-8 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
-                                        <span className={`text-sm font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>John Doe</span>
+                                        <UserCircle className="h-8 w-8 text-white" />
+                                        <span className="text-sm font-medium text-white">{capitalize(user.firstName) + " " + capitalize(user.lastName)}</span>
                                     </button>
 
                                     {/* User dropdown */}
@@ -140,8 +156,8 @@ export default function Navbar() {
                                                 <BookOpen className="h-4 w-4 mr-2 text-gray-500" /> My Courses
                                             </Link>
                                             <div className="border-t border-gray-100"></div>
-                                            <button 
-                                                onClick={handleLogout}
+                                            <button
+                                                onClick={initiateLogout}
                                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center"
                                             >
                                                 <LogOut className="h-4 w-4 mr-2 text-red-500" /> Sign out
@@ -153,24 +169,15 @@ export default function Navbar() {
                         ) : (
                             <>
                                 {/* Login and Signup buttons - shown when not authenticated */}
-                                <Link 
-                                    to="/login" 
-                                    className={`px-4 py-2 text-sm font-medium rounded-md flex items-center ${
-                                        isScrolled 
-                                            ? 'text-blue-600 hover:text-blue-700' 
-                                            : 'text-white hover:bg-white hover:bg-opacity-20'
-                                    }`}
-                                    onClick={handleLogin} // For demo purposes
+                                <Link
+                                    to="/login"
+                                    className="px-4 py-2 text-sm font-medium rounded-md flex items-center text-white hover:bg-white hover:bg-opacity-20"
                                 >
                                     <LogIn className="h-4 w-4 mr-1" /> Login
                                 </Link>
-                                <Link 
-                                    to="/signup" 
-                                    className={`px-4 py-2 text-sm font-medium rounded-md ${
-                                        isScrolled 
-                                            ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                                            : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30'
-                                    } flex items-center`}
+                                <Link
+                                    to="/signup"
+                                    className="px-4 py-2 text-sm font-medium rounded-md flex items-center bg-white text-custom1"
                                 >
                                     <UserPlus className="h-4 w-4 mr-1" /> Sign Up
                                 </Link>
@@ -182,7 +189,7 @@ export default function Navbar() {
                     <div className="flex md:hidden items-center">
                         <button
                             onClick={toggleMenu}
-                            className={`p-2 rounded-md ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+                            className="p-2 rounded-md text-white"
                         >
                             <span className="sr-only">Open main menu</span>
                             {isMenuOpen ? (
@@ -212,7 +219,7 @@ export default function Navbar() {
                         <Link to="/practice" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Practice</Link>
                         <Link to="/analytics" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Analytics</Link>
                     </div>
-                    
+
                     {isAuthenticated ? (
                         <div className="pt-4 pb-3 border-t border-gray-200">
                             <div className="flex items-center px-5">
@@ -223,7 +230,10 @@ export default function Navbar() {
                                     <div className="text-base font-medium text-gray-800">John Doe</div>
                                     <div className="text-sm font-medium text-gray-500">john@example.com</div>
                                 </div>
-                                <button className="ml-auto p-1 rounded-full text-gray-500 hover:bg-gray-100">
+                                <button
+                                    onClick={toggleNotifications}
+                                    className="ml-auto p-1 rounded-full text-gray-500 hover:bg-gray-100"
+                                >
                                     <Bell className="h-6 w-6" />
                                 </button>
                             </div>
@@ -237,8 +247,8 @@ export default function Navbar() {
                                 <Link to="/courses" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 flex items-center">
                                     <BookOpen className="h-5 w-5 mr-2 text-gray-500" /> My Courses
                                 </Link>
-                                <button 
-                                    onClick={handleLogout}
+                                <button
+                                    onClick={initiateLogout}
                                     className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100 flex items-center"
                                 >
                                     <LogOut className="h-5 w-5 mr-2 text-red-500" /> Sign out
@@ -247,21 +257,47 @@ export default function Navbar() {
                         </div>
                     ) : (
                         <div className="pt-4 pb-3 border-t border-gray-200 px-5 flex flex-col space-y-2">
-                            <Link 
-                                to="/login" 
+                            <Link
+                                to="/login"
                                 className="w-full py-2 text-center font-medium rounded-md text-blue-600 border border-blue-600 flex items-center justify-center"
-                                onClick={handleLogin} // For demo purposes
                             >
                                 <LogIn className="h-5 w-5 mr-2" /> Login
                             </Link>
-                            <Link 
-                                to="/signup" 
+                            <Link
+                                to="/signup"
                                 className="w-full py-2 text-center font-medium rounded-md bg-blue-600 text-white flex items-center justify-center"
                             >
                                 <UserPlus className="h-5 w-5 mr-2" /> Sign Up
                             </Link>
                         </div>
                     )}
+                </div>
+            )}
+
+            {/* Logout Confirmation Modal */}
+            {showLogoutConfirm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-sm mx-auto">
+                        <div className="flex items-center mb-4">
+                            <AlertTriangle className="h-6 w-6 text-yellow-500 mr-2" />
+                            <h3 className="text-lg font-medium text-gray-900">Confirm Logout</h3>
+                        </div>
+                        <p className="mb-6 text-gray-700">Are you sure you want to log out?</p>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={cancelLogout}
+                                className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmLogout}
+                                className="px-4 py-2 text-sm font-medium rounded-md bg-red-600 text-white hover:bg-red-700"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </nav>

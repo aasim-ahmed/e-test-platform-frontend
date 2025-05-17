@@ -22,7 +22,7 @@ export default function Navbar() {
     }
 
 
-    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+    // const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 
 
@@ -62,7 +62,7 @@ export default function Navbar() {
     };
 
     return (
-<nav className="fixed w-full z-50 bg-gradient-to-r from-custom1 to-custom2 shadow-md py-2">
+<nav className="fixed top-0 w-full z-50 bg-gradient-to-r from-custom1 to-custom2 shadow-md py-2 ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Logo and brand */}
@@ -83,8 +83,8 @@ export default function Navbar() {
                             />
                         </div>
 
-                        <Link to="/dashboard" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
-                            Dashboard
+                        <Link to="/" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
+                            Home
                         </Link>
                         <Link to="/my-tests" className="px-3 py-2 text-sm font-medium rounded-md text-white hover:bg-blue-500 hover:bg-opacity-20">
                             My Tests
@@ -140,7 +140,7 @@ export default function Navbar() {
                                         className="flex items-center space-x-2"
                                     >
                                         <UserCircle className="h-8 w-8 text-white" />
-                                        <span className="text-sm font-medium text-white">{capitalize(user.firstName) + " " + capitalize(user.lastName)}</span>
+                                        <span className="text-sm font-medium text-white">{user.firstName + " " + user.lastName}</span>
                                     </button>
 
                                     {/* User dropdown */}
@@ -214,7 +214,7 @@ export default function Navbar() {
                                 className="bg-transparent border-none outline-none focus:ring-0 text-sm ml-2 w-full"
                             />
                         </div>
-                        <Link to="/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Dashboard</Link>
+                        <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Home</Link>
                         <Link to="/my-tests" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">My Tests</Link>
                         <Link to="/practice" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Practice</Link>
                         <Link to="/analytics" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Analytics</Link>

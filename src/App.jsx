@@ -16,6 +16,7 @@ import TechnicalExpert from './pages/Dashboard/TechnicalExpert.jsx';
 import Candidate from './pages/Dashboard/candidate.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Footer from './components/Footer.jsx'; 
+import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='*' element={<NotFound />} />
 
           <Route
             path='/candidate'

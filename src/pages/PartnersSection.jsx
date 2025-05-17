@@ -11,11 +11,10 @@ import gpt from '../assets/chatgpt-logo.png';
 export default function PartnersSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  // Number of visible logos at different screen sizes
   const visibleLogos = {
-    sm: 3,  // Small screens
-    md: 4,  // Medium screens
-    lg: 5   // Large screens
+    sm: 3,  
+    md: 4,  
+    lg: 5   
   };
   
   // Use the imported partner logos
@@ -29,7 +28,6 @@ export default function PartnersSection() {
     { id: 7, src: gpt, alt: "GPT" },
   ];
   
-  // Function to handle previous slide
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? partnerLogos.length - visibleLogos.lg : prevIndex - 1
@@ -52,7 +50,6 @@ export default function PartnersSection() {
         </div>
         
         <div className="relative">
-          {/* Navigation Arrows */}
           <button 
             onClick={handlePrevious}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-8 h-8 flex items-center justify-center text-teal-500 hover:text-teal-600 focus:outline-none z-10"
@@ -62,7 +59,6 @@ export default function PartnersSection() {
             </svg>
           </button>
           
-          {/* Partner Logos */}
           <div className="flex justify-center items-center space-x-8 overflow-hidden py-4">
             {partnerLogos.slice(currentIndex, currentIndex + visibleLogos.lg).map((logo) => (
               <div 

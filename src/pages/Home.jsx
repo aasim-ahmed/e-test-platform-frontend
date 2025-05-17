@@ -5,33 +5,35 @@ import Features from '../pages/Features.jsx';
 import Pricing from '../pages/Pricing.jsx';
 import CTASection from '../pages/CTASection.jsx';
 import TestPlatformStats from '../pages/TestPlatformStats.jsx';
+import PartnersSection from '../pages/PartnersSection.jsx';
+import bottomimage from '../assets/bottom.png';
 
 export default function Home() {
   const [email, setEmail] = useState('');
 
 
   return (
-     <div className="relative bg-gradient-to-br from-custom1 to-custom2 flex flex-col items-center justify-center ">
+    <div className="relative flex flex-col items-center justify-center">
       {/* Main content */}
       <div className="container mx-auto px-6 py-20 text-center z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between w-full">
           {/* Left text section */}
           <div className="w-full md:w-1/2 text-left mb-10 md:mb-0">
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+              <span className="bg-clip-text text-transparent bg-gradient-to-l from-custom1 to-custom2">
                 Online<br />Examination<br />System
               </span>
             </h1>
 
-            <p className="text-xl text-blue-100 mb-8 max-w-lg font-light leading-relaxed">
+            <p className="text-xl text-custom1 mb-8 max-w-lg font-light leading-relaxed">
               Secure, flexible, and user-friendly platform for conducting online assessments, examinations, and quizzes with advanced analytics.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <button className="px-8 py-3 bg-white text-blue-800 font-bold rounded-full hover:bg-blue-50 shadow-lg transform hover:-translate-y-1 transition duration-300">
+              <button className="px-8 py-3 bg-custom1 text-white font-bold rounded-full hover:bg-custom2 shadow-lg transform hover:-translate-y-1 transition duration-300">
                 Get Started
               </button>
-              <button className="px-8 py-3 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-blue-800 transform hover:-translate-y-1 transition duration-300">
+              <button className="px-8 py-3 bg-transparent border-2 border-custom1 text-custom1 font-bold rounded-full hover:bg-custom1 hover:text-white shadow-lg transform hover:-translate-y-1 transition duration-300">
                 Learn More
               </button>
             </div>
@@ -41,17 +43,19 @@ export default function Home() {
           <img
             src={Image}
             alt="Online Examination System"
-            className="w-full md:w-1/2"
+            className="w-full md:w-1/2 hover:scale-105 transition duration-500 pointer-cursor"
           />
         </div>
       </div>
 
-     
-<TestPlatformStats/>
-      {/* Following sections */}
+<img src={bottomimage} className="w-[150%]" alt="" />
+
+      {/* Additional sections */}
+      <TestPlatformStats />
       <Features />
       <Pricing />
       <CTASection />
+      <PartnersSection />
     </div>
   );
 }

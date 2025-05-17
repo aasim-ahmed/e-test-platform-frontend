@@ -16,7 +16,6 @@ export default function CTASection() {
   <div className="max-w-6xl mx-auto px-4 pt-8">
     <div className="w-full bg-white rounded-2xl shadow-xl overflow-hidden">
       <div className="flex flex-col md:flex-row">
-        {/* Left side with gradient background */}
         <div className="bg-gradient-to-br from-custom1 to-custom2 p-8 md:p-12 text-white md:w-2/5 flex items-center">
           <div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4">Transform Your Testing Process</h3>

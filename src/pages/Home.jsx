@@ -14,10 +14,8 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col items-center justify-center">
-      {/* Main content */}
       <div className="container mx-auto px-6 py-20 text-center z-10">
         <div className="flex flex-col md:flex-row items-center justify-between w-full">
-          {/* Left text section */}
           <div className="w-full md:w-1/2 text-left mb-10 md:mb-0">
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-l from-custom1 to-custom2">

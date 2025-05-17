@@ -11,7 +11,6 @@ export default function Features() {
           <p className="text-gray-600 mt-2">Everything you need to create, manage, and analyze professional assessments</p>
         </div>
        <div className="grid grid-cols-12 gap-6">
-          {/* Left Column */}
           <div className="col-span-12 md:col-span-4">
             <div className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-indigo-100 hover:shadow-lg transition-shadow">
               <div className="flex flex-col items-center text-center p-4">

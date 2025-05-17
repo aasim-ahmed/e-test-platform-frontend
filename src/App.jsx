@@ -15,11 +15,11 @@ import Recruiter from './pages/Dashboard/Recruiter.jsx';
 import TechnicalExpert from './pages/Dashboard/TechnicalExpert.jsx';
 import Candidate from './pages/Dashboard/candidate.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import Footer from './components/Footer.jsx'; 
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Navbar />
       <ToastContainer position="top-right" autoClose={3000} />
       <Layout>
         <Routes>
@@ -67,6 +67,7 @@ export default function App() {
 
         </Routes>
       </Layout>
+      <Footer/>
     </BrowserRouter>
   );
 }

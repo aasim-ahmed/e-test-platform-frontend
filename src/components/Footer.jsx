@@ -94,7 +94,7 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-teal-400 border-opacity-30 mt-10 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p>© {new Date().getFullYear()} Test Platform Portal. Developed by <strong className="font-bold text-blue">Techno Aasim</strong>. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} SkillSnap. Developed by <strong className="font-bold text-blue">Techno Aasim</strong>. All rights reserved.</p>
             <div className="mt-4 md:mt-0">
               <ul className="flex space-x-6">
                 <li><a href="#" className="hover:text-teal-400 transition-colors">Privacy Policy</a></li>
